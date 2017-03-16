@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Administrador de Contenidos</title>
+
+    <!-- Bootstrap -->
+    <!--link href="DataTables/Bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet"-->
+    <link href="css/layout.css" rel="stylesheet">
+
+    <!--link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/fh-3.1.2/r-2.1.0/sc-1.4.2/se-1.2.0/datatables.min.css"/-->
+
+    <link rel="stylesheet" type="text/css" href="DataTables/Bootstrap-3.3.7/css/bootstrap.min.css"/>
+
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    <div id="sidebar-menu"></div>
+
+    <div class="container-fluid" id="page-content">
+        <h3>Subir varios SMS</h3>
+        <p>El archivo debe ser de tipo <i>.xlsx</i> (Excel), y debe tener las siguientes columnas: </p>
+
+        <table id="excel-columns" class="table table-bordered table-condensed" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Texto</th>
+                    <th>Fecha</th>
+                    <th>Tags</th>
+                    <th>Id Productos</th>
+                </tr>
+            </thead>
+        </table>
+
+        <p>La primera fila de la planilla debe tener los títulos de las columnas. Fecha en formato YYYY-MM-DD, Tags e
+         Id Productos separados por comas.</p>
+
+        <label class="btn btn-primary" for="my-file-selector">
+            <input id="my-file-selector" type="file" accept=".xlsx" style="display:none;" onchange="$('#upload-file-info').html(this.files[0].name);">
+            Seleccionar Archivo
+        </label>
+        <span class='label label-info' id="upload-file-info"></span>
+        <br>
+
+        <button id="upload-excel" type="button" class="btn btn-primary">Subir</button>
+        <div id="excel-status" class="status-msg"></div>
+
+        <hr>
+        <h3>Subir sólo un SMS</h3>
+        <p>La fecha debe estar en formato YYYY-MM-DD. Los tags e Id de Productos deben ir separados por comas.</p>
+
+        <form id="search-form">
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label for="input-date" class="col-form-label">Fecha:</label>
+                    <input type="text" class="form-control" id="input-date">
+                </div>
+                <div class="col-md-4">
+                    <label for="input-tag" class="col-form-label">Tag:</label>
+                    <input type="text" class="form-control" id="input-tag">
+                </div>
+                <div class="col-md-4">
+                    <label for="input-products" class="col-form-label">Id Productos:</label>
+                    <input type="text" class="form-control" id="input-products">
+                </div>
+            </div>
+            <div class="form-group row" id="textarea-wrapper">
+                <div class="col-md-12">
+                    <label for="input-text" class="col-form-label">Texto:</label>
+                    <textarea class="form-control" rows="4" id="input-text" placeholder="Mensaje..."></textarea>
+                </div>
+            </div>
+        </form>
+
+        <button id="post-message" type="button" class="btn btn-primary">Subir Mensaje</button>
+        <div id="message-status"></div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-3.1.1.min.js"> </script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/definiciones-varias.js"></script>
+    <script src="js/smsUpload.js"></script>
+
+    <script lang="javascript" src="js-xlsx-master/dist/xlsx.core.min.js"></script>
+
+    <!-- script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/dt-1.10.13/b-1.2.4/fh-3.1.2/r-2.1.0/sc-1.4.2/se-1.2.0/datatables.min.js"></script-->
+    <script type="text/javascript" src="DataTables/Bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+
+
+
+
+</body>
+</html>

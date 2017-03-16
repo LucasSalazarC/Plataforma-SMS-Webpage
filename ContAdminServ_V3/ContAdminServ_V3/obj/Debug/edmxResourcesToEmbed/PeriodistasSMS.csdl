@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PeriodistasSMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Categoria">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Producto" Relationship="Self.fk_CatProd" FromRole="Categoria" ToRole="Producto" />
+  </EntityType>
+  <EntityType Name="Contenido">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Texto" Type="String" MaxLength="160" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaEnvio" Type="DateTime" Precision="0" />
+    <Property Name="Enviado" Type="Boolean" />
+    <Property Name="Tag" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Producto" Relationship="Self.ProductoContenido" FromRole="Contenido" ToRole="Producto" />
+  </EntityType>
+  <EntityType Name="Producto">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="IdCategoria" Type="Int32" />
+    <Property Name="Atemporal" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Categoria" Relationship="Self.fk_CatProd" FromRole="Producto" ToRole="Categoria" />
+    <NavigationProperty Name="Contenido" Relationship="Self.ProductoContenido" FromRole="Producto" ToRole="Contenido" />
+    <NavigationProperty Name="ColaProducto" Relationship="PeriodistasSMSModel.fk_IdProducto" FromRole="Producto" ToRole="ColaProducto" />
+  </EntityType>
+  <Association Name="fk_CatProd">
+    <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
+    <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categoria">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Producto">
+        <PropertyRef Name="IdCategoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProductoContenido">
+    <End Role="Contenido" Type="Self.Contenido" Multiplicity="*" />
+    <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="PeriodistasSMSEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categoria" EntityType="Self.Categoria" />
+    <EntitySet Name="Contenido" EntityType="Self.Contenido" />
+    <EntitySet Name="Producto" EntityType="Self.Producto" />
+    <AssociationSet Name="fk_CatProd" Association="Self.fk_CatProd">
+      <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="Producto" EntitySet="Producto" />
+    </AssociationSet>
+    <AssociationSet Name="ProductoContenido" Association="Self.ProductoContenido">
+      <End Role="Contenido" EntitySet="Contenido" />
+      <End Role="Producto" EntitySet="Producto" />
+    </AssociationSet>
+    <FunctionImport Name="GetContent" ReturnType="Collection(PeriodistasSMSModel.GetContent_Result)" />
+    <EntitySet Name="Cola" EntityType="PeriodistasSMSModel.Cola" />
+    <EntitySet Name="ColaProducto" EntityType="PeriodistasSMSModel.ColaProducto" />
+    <AssociationSet Name="fk_IdCola" Association="PeriodistasSMSModel.fk_IdCola">
+      <End Role="Cola" EntitySet="Cola" />
+      <End Role="ColaProducto" EntitySet="ColaProducto" />
+    </AssociationSet>
+    <AssociationSet Name="fk_IdProducto" Association="PeriodistasSMSModel.fk_IdProducto">
+      <End Role="Producto" EntitySet="Producto" />
+      <End Role="ColaProducto" EntitySet="ColaProducto" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="GetContent_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Texto" Nullable="false" MaxLength="255" />
+    <Property Type="DateTime" Name="FechaEnvio" Nullable="true" />
+    <Property Type="Boolean" Name="Enviado" Nullable="true" />
+    <Property Type="String" Name="Tag" Nullable="true" MaxLength="255" />
+  </ComplexType>
+  <EntityType Name="Cola">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Texto" Type="String" Nullable="false" MaxLength="160" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ColaProducto" Relationship="PeriodistasSMSModel.fk_IdCola" FromRole="Cola" ToRole="ColaProducto" />
+  </EntityType>
+  <EntityType Name="ColaProducto">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="IdProducto" Type="Int32" Nullable="false" />
+    <Property Name="IdCola" Type="Int32" Nullable="false" />
+    <Property Name="FechaInicio" Type="DateTime" Precision="0" Nullable="false" />
+    <Property Name="FechaTermino" Type="DateTime" Precision="0" Nullable="false" />
+    <NavigationProperty Name="Cola" Relationship="PeriodistasSMSModel.fk_IdCola" FromRole="ColaProducto" ToRole="Cola" />
+    <NavigationProperty Name="Producto" Relationship="PeriodistasSMSModel.fk_IdProducto" FromRole="ColaProducto" ToRole="Producto" />
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <Association Name="fk_IdCola">
+    <End Type="PeriodistasSMSModel.Cola" Role="Cola" Multiplicity="1" />
+    <End Type="PeriodistasSMSModel.ColaProducto" Role="ColaProducto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cola">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ColaProducto">
+        <PropertyRef Name="IdCola" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_IdProducto">
+    <End Type="PeriodistasSMSModel.Producto" Role="Producto" Multiplicity="1" />
+    <End Type="PeriodistasSMSModel.ColaProducto" Role="ColaProducto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Producto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ColaProducto">
+        <PropertyRef Name="IdProducto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

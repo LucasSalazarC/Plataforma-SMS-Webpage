@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PeriodistasSMSModelStoreContainer" CdmEntityContainer="PeriodistasSMSEntities">
+    <EntitySetMapping Name="Categoria">
+      <EntityTypeMapping TypeName="PeriodistasSMSModel.Categoria">
+        <MappingFragment StoreEntitySet="Categoria">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Contenido">
+      <EntityTypeMapping TypeName="PeriodistasSMSModel.Contenido">
+        <MappingFragment StoreEntitySet="Contenido">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Texto" ColumnName="Texto" />
+          <ScalarProperty Name="FechaEnvio" ColumnName="FechaEnvio" />
+          <ScalarProperty Name="Enviado" ColumnName="Enviado" />
+          <ScalarProperty Name="Tag" ColumnName="Tag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Producto">
+      <EntityTypeMapping TypeName="PeriodistasSMSModel.Producto">
+        <MappingFragment StoreEntitySet="Producto">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+          <ScalarProperty Name="Atemporal" ColumnName="Atemporal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ProductoContenido" TypeName="PeriodistasSMSModel.ProductoContenido" StoreEntitySet="ProductoContenido">
+      <EndProperty Name="Contenido">
+        <ScalarProperty Name="Id" ColumnName="IdContenido" />
+      </EndProperty>
+      <EndProperty Name="Producto">
+        <ScalarProperty Name="Id" ColumnName="IdProducto" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="Cola">
+      <EntityTypeMapping TypeName="PeriodistasSMSModel.Cola">
+        <MappingFragment StoreEntitySet="Cola">
+          <ScalarProperty Name="Texto" ColumnName="Texto" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ColaProducto">
+      <EntityTypeMapping TypeName="PeriodistasSMSModel.ColaProducto">
+        <MappingFragment StoreEntitySet="ColaProducto">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FechaTermino" ColumnName="FechaTermino" />
+          <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+          <ScalarProperty Name="IdCola" ColumnName="IdCola" />
+          <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
